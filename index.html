@@ -3,97 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Wordly | Omnicom State-Aware Demo</title>
+    <title>Wordly | Omnicom Experience</title>
     <style>
         :root {
             --bg: #0b0e14;
             --card: #161b22;
             --accent: #2f81f7;
             --text: #c9d1d9;
-            --highlight: #f0ad4e;
-            --code-bg: #0d1117;
         }
         body, html { 
             margin: 0; padding: 0; height: 100%; 
             font-family: -apple-system, system-ui, sans-serif;
             background: var(--bg); color: var(--text);
         }
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
-        
-        /* Setup Card (Dell Framework) */
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
         .setup-card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid #30363d; margin-bottom: 20px; }
         .input-group { display: flex; gap: 15px; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; }
         .field { display: flex; flex-direction: column; gap: 5px; flex-grow: 1; }
-        input, select { background: #0d1117; border: 1px solid #30363d; color: #fff; padding: 12px; border-radius: 6px; font-size: 16px; width: 100%; box-sizing: border-box; }
+        input, select { background: #0d1117; border: 1px solid #30363d; color: #fff; padding: 12px; border-radius: 6px; font-size: 16px; width: 100%; }
         
-        /* View Management */
-        .view-state { display: none; width: 100%; min-height: 550px; border-radius: 8px; overflow: hidden; background: #000; border: 2px solid #30363d; position: relative; }
+        .view-state { display: none; width: 100%; min-height: 500px; border-radius: 8px; background: #000; border: 2px solid #30363d; }
         .view-state.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* Waiting View Elements */
-        .icon-wait { width: 150px; margin-bottom: 20px; opacity: 0.8; }
-        .spinner { width: 40px; height: 40px; border: 4px solid #333; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-top: 15px; }
+        /* Icon Fix: Ensure this matches your file exactly */
+        .icon-wait { width: 180px; height: auto; margin-bottom: 20px; }
+        
+        .spinner { width: 40px; height: 40px; border: 4px solid #333; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Iframe */
         iframe { width: 100%; height: 550px; border: none; }
-
-        /* Documentation (Dell Style) */
-        #code-reveal { display: none; background: var(--code-bg); padding: 30px; border-radius: 8px; border: 1px solid var(--accent); margin-top: 20px; text-align: left; }
-        pre { background: #000; padding: 15px; border-radius: 6px; color: #79c0ff; font-size: 13px; overflow-x: auto; border: 1px solid #30363d; }
-        button.action-btn { cursor: pointer; padding: 12px 24px; border-radius: 6px; border: none; font-weight: bold; background: var(--accent); color: white; width: auto; }
+        button.action-btn { cursor: pointer; padding: 12px 24px; border-radius: 6px; border: none; background: var(--accent); color: white; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="setup-card">
-        <h1>Omnicom: State-Aware Landing</h1>
+        <h1>Wordly | Omnicom Landing</h1>
         
         <div class="input-group">
             <div class="field">
-                <label>1. Session ID</label>
+                <label>Session ID</label>
                 <input type="text" id="session-id" placeholder="XXXX-0000" maxlength="9">
             </div>
             <div class="field">
-                <label>2. Initial Language</label>
+                <label>Starting Language</label>
                 <select id="lang-picker">
-                    <option value="" disabled selected>-- Loading List --</option>
+                    <option value="" disabled selected>-- Loading --</option>
                 </select>
             </div>
-            <button class="action-btn" onclick="initiateConnection()">Connect & Wait</button>
+            <button class="action-btn" onclick="connect()">Connect</button>
         </div>
 
         <div id="view-placeholder" class="view-state active">
-            <p>Enter Session ID and Language to begin.</p>
+            <p>Configure Session ID to begin monitoring.</p>
         </div>
 
         <div id="view-waiting" class="view-state">
-            <img src="image_929cb7.png" class="icon-wait" alt="Waiting">
-            <h2 id="wait-msg">Connecting to Wordly...</h2>
+            <img src="image_929cb7.png" class="icon-wait" alt="Waiting for session">
+            <h2 id="wait-msg">Connecting...</h2>
             <div class="spinner"></div>
         </div>
 
         <div id="view-live" class="view-state">
             <iframe id="wordly-frame" allow="microphone; clipboard-write"></iframe>
         </div>
-
-        <button style="margin-top:20px;" class="action-btn" onclick="toggleDoc()">Show Technical Logic</button>
-    </div>
-
-    <div id="code-reveal">
-        <h2>Omnicom Implementation Logic</h2>
-        <p>This demo uses a <strong>WebSocket Watchdog</strong> to synchronize the UI state with Wordly's backend. The iframe is only injected once live content is detected.</p>
-        
-        <h3>Logic Breakdown:</h3>
-        <ul>
-            <li><strong>Authentication:</strong> Connects to <code>wss://endpoint.wordly.ai/present</code> via JavaScript.</li>
-            <li><strong>State Detection:</strong> Listens for <code>transcript</code> or <code>status.live</code> messages.</li>
-            <li><strong>Handoff:</strong> Switches from "Waiting Screen" to Iframe with <code>enableTTS=false</code>.</li>
-        </ul>
-        
-        <h3>Trigger Function:</h3>
-        <pre id="code-output">// Script generates here...</pre>
     </div>
 </div>
 
@@ -101,108 +74,83 @@
     const sidInput = document.getElementById('session-id');
     const langPicker = document.getElementById('lang-picker');
     const frame = document.getElementById('wordly-frame');
-    const codeOutput = document.getElementById('code-output');
-    let watchdog = null;
+    let socket = null;
 
-    // 1. Initial Language Load (Dell Framework Style)
+    /**
+     * 1. LOAD LANGUAGES (Robust Check)
+     * Using both wordlyCode and code to support different JSON formats.
+     */
     fetch('languages.json')
         .then(r => r.json())
         .then(data => {
             const list = data.languages || data;
-            langPicker.innerHTML = '<option value="" disabled selected>-- Choose Language --</option>';
+            if (!Array.isArray(list)) throw new Error("Invalid format");
+            
+            langPicker.innerHTML = '<option value="" disabled selected>-- Select Language --</option>';
             list.forEach(l => {
-                let o = document.createElement('option');
-                o.value = l.wordlyCode || l.code;
-                o.innerText = l.englishName || l.name;
-                langPicker.appendChild(o);
+                let code = l.wordlyCode || l.code;
+                let name = l.englishName || l.name;
+                if(code && name) {
+                    let o = document.createElement('option');
+                    o.value = code;
+                    o.innerText = name;
+                    langPicker.appendChild(o);
+                }
             });
         }).catch(e => {
+            console.warn("JSON load failed:", e);
             langPicker.innerHTML = '<option value="en">English</option><option value="es">Spanish</option>';
         });
 
-    // 2. Session ID Formatter
     sidInput.addEventListener('input', (e) => {
         let val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         if (val.length > 4) val = val.slice(0, 4) + '-' + val.slice(4, 8);
         e.target.value = val;
     });
 
-    // 3. The Omnicom "Initiation" Logic
-    function initiateConnection() {
+    /**
+     * 2. WATCHDOG CONNECTION
+     * Connects to WSS and listens for data BEFORE opening iframe.
+     */
+    function connect() {
         const sid = sidInput.value;
         const lang = langPicker.value;
-        
-        if (sid.length < 9 || !lang) {
-            alert("Please provide a valid Session ID and Language.");
-            return;
-        }
+        if (sid.length < 9 || !lang) return alert("Missing Config");
 
-        // Switch to Waiting Screen
         switchView('view-waiting');
-        document.getElementById('wait-msg').innerText = "Waiting for Host...";
+        document.getElementById('wait-msg').innerText = "Waiting for Session: " + sid;
 
-        // Start Watchdog
-        if (watchdog) watchdog.close();
-        watchdog = new WebSocket("wss://endpoint.wordly.ai/present");
+        if (socket) socket.close();
+        socket = new WebSocket("wss://endpoint.wordly.ai/present");
 
-        watchdog.onopen = () => {
-            // Send Connect Handshake
-            watchdog.send(JSON.stringify({
+        socket.onopen = () => {
+            // Handshake
+            socket.send(JSON.stringify({
                 type: "connect",
                 presentationCode: sid
             }));
         };
 
-        watchdog.onmessage = (msg) => {
-            const data = JSON.parse(msg.data);
-            // Flip UI when content arrives
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            // Flip to live on first transcript or status update
             if (data.type === "transcript" || (data.type === "status" && data.live)) {
-                launchStream(sid, lang);
+                socket.close();
+                launch(sid, lang);
             }
         };
-
-        updateDoc(sid, lang);
     }
 
-    function launchStream(sid, lang) {
-        if (watchdog) watchdog.close();
-        
-        // Use enableTTS=false per Omnicom requirements
-        // No 'show' parameter to allow user selection inside the iframe
+    function launch(sid, lang) {
+        // Omnicom Parameters: enableTTS=false
         const url = `https://attend.wordly.ai/frame/${sid}?lang=${lang}&enableTTS=false&speakerLanguage=false`;
-        
         frame.src = url;
         switchView('view-live');
     }
 
-    function switchView(viewId) {
+    function switchView(id) {
         document.querySelectorAll('.view-state').forEach(v => v.classList.remove('active'));
-        document.getElementById(viewId).classList.add('active');
-    }
-
-    function updateDoc(sid, lang) {
-        codeOutput.innerText = `// Omnicom Implementation
-function startSession(sid, lang) {
-    const ws = new WebSocket("wss://endpoint.wordly.ai/present");
-    ws.onopen = () => ws.send(JSON.stringify({ type: "connect", presentationCode: sid }));
-    
-    ws.onmessage = (msg) => {
-        const data = JSON.parse(msg.data);
-        if (data.type === "transcript" || (data.type === "status" && data.live)) {
-             // Inject iframe only when data is active
-             document.getElementById('wordly-frame').src = 
-                "https://attend.wordly.ai/frame/" + sid + "?lang=" + lang + "&enableTTS=false";
-             showLiveUI();
-             ws.close();
-        }
-    };
-}`;
-    }
-
-    function toggleDoc() {
-        const el = document.getElementById('code-reveal');
-        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-        if(el.style.display === 'block') el.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById(id).classList.add('active');
     }
 </script>
 </body>
