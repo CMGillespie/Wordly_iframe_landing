@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wordly | Omnicom Experience</title>
+    <style>
+        :root {
+            --bg: #0b0e14;
+            --card: #161b22;
+            --accent: #2f81f7;
+            --text: #c9d1d9;
+        }
+        body, html { 
+            margin: 0; padding: 0; height: 100%; 
+            font-family: -apple-system, system-ui, sans-serif;
+            background: var(--bg); color: var(--text); overflow: hidden;
+        }
+        .view-container {
+            display: none; height: 100vh; width: 100vw;
+            flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; box-sizing: border-box;
+        }
+        .view-container.active { display: flex; }
+
+        .icon-main { width: 160px; margin-bottom: 30px; opacity: 0.9; }
+        
+        .control-group { width: 85%; max-width: 340px; }
+        select { 
+            width: 100%; padding: 16px; border-radius: 12px; border: 1px solid #30363d;
+            background: var(--card); color: white; font-size: 18px; margin-bottom: 15px;
+        }
+        button {
+            width: 100%; padding: 16px; border-radius: 12px; border: none;
+            background: var(--accent); color: white; font-weight: 700; font-size: 18px;
+        }
+
+        .spinner {
+            width: 40px; height: 40px; border: 4px solid #30363d;
+            border-top: 4px solid var(--accent); border-radius: 50%;
+            animation: spin 1s linear infinite; margin: 20px auto;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        iframe { width: 100%; height: 100%; border: none; background: #000; }
+    </style>
+</head>
+<body>
+
+    <div id="view-landing" class="view-container active">
+        <img src="image_929cb7.png" class="icon-main" alt="Select Language">
+        <h2>Welcome</h2>
+        <p>Select your starting language.</p>
+        <div class="control-group">
+            <select id="lang-select">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="zh-CN">Chinese (Simplified)</option>
+            </select>
+            <button onclick="requestAccess()">Join Session</button>
+        </div>
+    </div>
+
+    <div id="view-waiting" class="view-container">
+        <img src="image_929cb7.png" class="icon-main" alt="Waiting">
+        <h2 id="wait-status">Initializing...</h2>
+        <p>The session will start automatically when content is available.</p>
+        <div class="spinner"></div>
+    </div>
+
+    <div id="view-live" class="view-container">
+        <iframe id="wordly-iframe" allow="microphone; clipboard-write"></iframe>
+    </div>
+
+<script>
+    const SESSION_ID = "XXXX-0000"; // Omnicom Session ID
+    let startLang = "en";
+    let watchdog = null;
+
+    function requestAccess() {
+        startLang = document.getElementById('lang-select').value;
+        switchView('view-waiting');
+        startWatchdog();
+    }
+
+    function startWatchdog() {
+        watchdog = new WebSocket("wss://endpoint.wordly.ai/present");
+
+        watchdog.onopen = () => {
+            document.getElementById('wait-status').innerText = "Waiting for Session";
+            // Auth Handshake
+            watchdog.send(JSON.stringify({
+                type: "connect",
+                presentationCode: SESSION_ID
+            }));
+        };
+
+        watchdog.onmessage = (msg) => {
+            const data = JSON.parse(msg.data);
+            
+            // Logic: Flip to live if we see a transcript or a status change
+            if (data.type === "transcript" || (data.type === "status" && data.live)) {
+                activateIframe();
+            }
+        };
+    }
+
+    function activateIframe() {
+        if (watchdog) watchdog.close();
+        
+        /**
+         * OMNICOM PARAMETERS
+         * - lang: Sets the initial start language.
+         * - enableTTS: Disabled per requirement.
+         * - speakerLanguage: Hidden for cleaner UI.
+         * - (No 'show' parameter): Allows full use of internal language picker.
+         */
+        const url = `https://attend.wordly.ai/frame/${SESSION_ID}?lang=${startLang}&enableTTS=false&speakerLanguage=false`;
+        
+        document.getElementById('wordly-iframe').src = url;
+        switchView('view-live');
+    }
+
+    function switchView(viewId) {
+        document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+    }
+</script>
+</body>
+</html>
