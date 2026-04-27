@@ -1,0 +1,1278 @@
+{
+    "version": 0,
+    "languages": [
+        {
+            "englishName": "Afrikaans",
+            "nativeName": "Afrikaans",
+            "wordlyCode": "af",
+            "sampleText": "Die stem wat jy gekies het klink so",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Afrikaans",
+                "es": "Afrikáans",
+                "fr": "Afrikaans",
+                "ja": "アフリカーンス語",
+                "pt-BR": "Africâner"
+            }
+        },
+        {
+            "englishName": "Albanian",
+            "nativeName": "Shqip",
+            "wordlyCode": "sq",
+            "sampleText": "Zëri që keni zgjedhur tingëllon kështu",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Albanian",
+                "es": "Albanés",
+                "fr": "Albanaise",
+                "ja": "アルバニア語",
+                "pt-BR": "Albanês"
+            }
+        },
+        {
+            "englishName": "Arabic",
+            "nativeName": "العربية",
+            "wordlyCode": "ar",
+            "sampleText": "الصوت الذي اخترته يبدو مثل هذا",
+            "rtl": true,
+            "detectability": "preferred",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": true,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Arabic",
+                "es": "Árabe",
+                "fr": "Arabe",
+                "ja": "アラビア語",
+                "pt-BR": "Árabe"
+            }
+        },
+        {
+            "englishName": "Armenian",
+            "nativeName": "հայերեն",
+            "wordlyCode": "hy",
+            "sampleText": "Ձեր ընտրած ձայնը հնչում է այսպես",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Armenian",
+                "es": "Armenio",
+                "fr": "Arménien",
+                "ja": "アルメニア語",
+                "pt-BR": "Armênio"
+            }
+        },
+        {
+            "englishName": "Bengali",
+            "nativeName": "বাংলা",
+            "wordlyCode": "bn",
+            "sampleText": "আপনি যে ভয়েসটি বেছে নিয়েছেন তা এই জাতীয় শোনায়।",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Bengali",
+                "es": "Bengalí",
+                "fr": "Bengali",
+                "ja": "ベンガル語",
+                "pt-BR": "Bengali"
+            }
+        },
+        {
+            "englishName": "Bosnian",
+            "nativeName": "Bosanski",
+            "wordlyCode": "bs",
+            "sampleText": "Glas koji ste odabrali zvuči ovako",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": false,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Bosnian",
+                "es": "Bosnio",
+                "fr": "Bosniaque",
+                "ja": "ボスニア語",
+                "pt-BR": "Bósnio"
+            }
+        },
+        {
+            "englishName": "Bulgarian",
+            "nativeName": "Български",
+            "wordlyCode": "bg",
+            "sampleText": "Гласът, който сте избрали, звучи така",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Bulgarian",
+                "es": "Búlgaro",
+                "fr": "Bulgare",
+                "ja": "ブルガリア語",
+                "pt-BR": "Búlgaro"
+            }
+        },
+        {
+            "englishName": "Cantonese",
+            "nativeName": "廣東話",
+            "wordlyCode": "zh-HK",
+            "sampleText": "你揀嘅聲聽起嚟好似咁",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Cantonese",
+                "es": "Cantonés",
+                "fr": "Cantonaise",
+                "ja": "広東語",
+                "pt-BR": "Cantonês"
+            }
+        },
+        {
+            "englishName": "Catalan",
+            "nativeName": "Català",
+            "wordlyCode": "ca",
+            "sampleText": "La veu que has escollit sona així",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Catalan",
+                "es": "Catalán",
+                "fr": "Catalan",
+                "ja": "カタロニア語",
+                "pt-BR": "Catalão"
+            }
+        },
+        {
+            "englishName": "Chinese (Simplified)",
+            "nativeName": "普通话",
+            "wordlyCode": "zh-CN",
+            "sampleText": "这是您选择的声音",
+            "rtl": false,
+            "detectability": "preferred",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Chinese (Simplified)",
+                "es": "Chino (Simplificado)",
+                "fr": "Chinois (Simplifié)",
+                "ja": "中国語（簡体字）",
+                "pt-BR": "Chinês (Simplificado)"
+            }
+        },
+        {
+            "englishName": "Chinese (Traditional)",
+            "nativeName": "國語",
+            "wordlyCode": "zh-TW",
+            "sampleText": "這是您選擇的聲音",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Chinese (Traditional)",
+                "es": "Chino (Tradicional)",
+                "fr": "Chinois (Traditionnel)",
+                "ja": "中国語（繁体字）",
+                "pt-BR": "Chinês (Tradicional)"
+            }
+        },
+        {
+            "englishName": "Croatian",
+            "nativeName": "Hrvatski",
+            "wordlyCode": "hr",
+            "sampleText": "Glas koji ste odabrali zvuči ovako",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Croatian",
+                "es": "Croata",
+                "fr": "Croate",
+                "ja": "クロアチア語",
+                "pt-BR": "Croata"
+            }
+        },
+        {
+            "englishName": "Czech",
+            "nativeName": "Čeština",
+            "wordlyCode": "cs",
+            "sampleText": "Hlas, který jste si vybrali, zní takto",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Czech",
+                "es": "Checo",
+                "fr": "Tchèque",
+                "ja": "チェコ語",
+                "pt-BR": "Tcheco"
+            }
+        },
+        {
+            "englishName": "Danish",
+            "nativeName": "Dansk",
+            "wordlyCode": "da",
+            "sampleText": "Den stemme, du har valgt, lyder sådan",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Danish",
+                "es": "Danés",
+                "fr": "Danoise",
+                "ja": "デンマーク語",
+                "pt-BR": "Dinamarquês"
+            }
+        },
+        {
+            "englishName": "Dutch",
+            "nativeName": "Nederlands",
+            "wordlyCode": "nl",
+            "sampleText": "De stem die u hebt gekozen, klinkt zo",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Dutch",
+                "es": "Holandés",
+                "fr": "Néerlandais",
+                "ja": "オランダ語",
+                "pt-BR": "Holandês"
+            }
+        },
+        {
+            "englishName": "English (US)",
+            "nativeName": "English (US)",
+            "wordlyCode": "en",
+            "sampleText": "The voice you have chosen sounds like this",
+            "rtl": false,
+            "detectability": "preferred",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "English (US)",
+                "es": "Inglés (US)",
+                "fr": "Anglais (US)",
+                "ja": "英語（US）",
+                "pt-BR": "Inglês (EUA)"
+            }
+        },
+        {
+            "englishName": "English (UK)",
+            "nativeName": "English (UK)",
+            "wordlyCode": "en-GB",
+            "sampleText": "The voice you have chosen sounds like this",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "English (UK)",
+                "es": "Inglés (UK)",
+                "fr": "Anglais (UK)",
+                "ja": "英語（UK）",
+                "pt-BR": "Inglês (Reino Unido)"
+            }
+        },
+        {
+            "englishName": "English (AU)",
+            "nativeName": "English (AU)",
+            "wordlyCode": "en-AU",
+            "sampleText": "The voice you have chosen sounds like this",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "English (AU)",
+                "es": "Inglés (AU)",
+                "fr": "Anglais (AU)",
+                "ja": "英語（AU）",
+                "pt-BR": "Inglês (Austrália)"
+            }
+        },
+        {
+            "englishName": "Estonian",
+            "nativeName": "Eesti keel",
+            "wordlyCode": "et",
+            "sampleText": "Teie valitud hääl kõlab järgmiselt",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Estonian",
+                "es": "Estonio",
+                "fr": "Estonien",
+                "ja": "エストニア語",
+                "pt-BR": "Estoniano"
+            }
+        },
+        {
+            "englishName": "Finnish",
+            "nativeName": "Suomi",
+            "wordlyCode": "fi",
+            "sampleText": "Valitsemasi ääni kuulostaa tältä",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Finnish",
+                "es": "Finlandés",
+                "fr": "Finnois",
+                "ja": "フィンランド語",
+                "pt-BR": "Finlandês"
+            }
+        },
+        {
+            "englishName": "French (FR)",
+            "nativeName": "Français (FR)",
+            "wordlyCode": "fr",
+            "sampleText": "La voix que vous avez choisie sonne comme ceci",
+            "rtl": false,
+            "detectability": "preferred",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "French (FR)",
+                "es": "Francés (FR)",
+                "fr": "Français (FR)",
+                "ja": "フランス語（FR）",
+                "pt-BR": "Francês (França)"
+            }
+        },
+        {
+            "englishName": "French (CA)",
+            "nativeName": "Français (CA)",
+            "wordlyCode": "fr-CA",
+            "sampleText": "La voix que vous avez choisie sonne comme ceci",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "French (CA)",
+                "es": "Francés (CA)",
+                "fr": "Français (CA)",
+                "ja": "フランス語（CA）",
+                "pt-BR": "Francês (Canadá)"
+            }
+        },
+        {
+            "englishName": "Georgian",
+            "nativeName": "ქართული ენა",
+            "wordlyCode": "ka",
+            "sampleText": "თქვენ მიერ არჩეული ხმა ასე ჟღერს",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Georgian",
+                "es": "Georgiano",
+                "fr": "Géorgien",
+                "ja": "ジョージア語",
+                "pt-BR": "Georgiano"
+            }
+        },
+        {
+            "englishName": "German",
+            "nativeName": "Deutsch",
+            "wordlyCode": "de",
+            "sampleText": "Die Stimme, die Sie gewählt haben, klingt so",
+            "rtl": false,
+            "detectability": "preferred",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "German",
+                "es": "Alemán",
+                "fr": "Allemand",
+                "ja": "ドイツ語",
+                "pt-BR": "Alemão"
+            }
+        },
+        {
+            "englishName": "Greek",
+            "nativeName": "Ελληνικά",
+            "wordlyCode": "el",
+            "sampleText": "Η φωνή που επιλέξατε ακούγεται κάπως έτσι",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Greek",
+                "es": "Griego",
+                "fr": "Grec",
+                "ja": "ギリシャ語",
+                "pt-BR": "Grego"
+            }
+        },
+        {
+            "englishName": "Gujarati",
+            "nativeName": "ગુજરાતી",
+            "wordlyCode": "gu",
+            "sampleText": "તમે જે અવાજ પસંદ કર્યો છે તે આના જેવો લાગે છે",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Gujarati",
+                "es": "Gujarati",
+                "fr": "Gujarati",
+                "ja": "グジャラート語",
+                "pt-BR": "Guzerate"
+            }
+        },
+        {
+            "englishName": "Haitian Creole",
+            "nativeName": "Kreyòl",
+            "wordlyCode": "ht",
+            "sampleText": "Vwa ou te chwazi a son tankou sa a.",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": false,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": true,
+            "localizedNames": {
+                "en": "Haitian Creole",
+                "es": "Criollo Haitiano",
+                "fr": "Créole Haïtien",
+                "ja": "ハイチ語",
+                "pt-BR": "Crioulo Haitiano"
+            }
+        },
+        {
+            "englishName": "Hebrew",
+            "nativeName": "עברית",
+            "wordlyCode": "he",
+            "sampleText": "הקול שבחרת נשמע כך",
+            "rtl": true,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Hebrew",
+                "es": "Hebreo",
+                "fr": "Hébreu",
+                "ja": "ヘブライ語",
+                "pt-BR": "Hebraico"
+            }
+        },
+        {
+            "englishName": "Hindi",
+            "nativeName": "हिन्दी",
+            "wordlyCode": "hi",
+            "sampleText": "आपकी चुनी हुई आवाज़ ऐसी लगती है",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Hindi",
+                "es": "Hindi",
+                "fr": "Hindi",
+                "ja": "ヒンディー語",
+                "pt-BR": "Hindi"
+            }
+        },
+        {
+            "englishName": "Hungarian",
+            "nativeName": "Magyar",
+            "wordlyCode": "hu",
+            "sampleText": "A választott hang így hangzik",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Hungarian",
+                "es": "Húngaro",
+                "fr": "Hongrois",
+                "ja": "ハンガリー語",
+                "pt-BR": "Húngaro"
+            }
+        },
+        {
+            "englishName": "Icelandic",
+            "nativeName": "Íslenska",
+            "wordlyCode": "is",
+            "sampleText": "Röddin sem þú hefur valið hljómar svona",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Icelandic",
+                "es": "Islandés",
+                "fr": "Islandais",
+                "ja": "アイスランド語",
+                "pt-BR": "Islandês"
+            }
+        },
+        {
+            "englishName": "Indonesian",
+            "nativeName": "Bahasa Indonesia",
+            "wordlyCode": "id",
+            "sampleText": "Suara yang Anda pilih terdengar seperti ini",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Indonesian",
+                "es": "Indonesio",
+                "fr": "Indonésien",
+                "ja": "インドネシア語",
+                "pt-BR": "Indonésio"
+            }
+        },
+        {
+            "englishName": "Irish",
+            "nativeName": "Gaeilge",
+            "wordlyCode": "ga",
+            "sampleText": "Fuaimeann an guth atá roghnaithe agat mar seo",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Irish",
+                "es": "Irlandés",
+                "fr": "Irlandais",
+                "ja": "アイルランド語",
+                "pt-BR": "Irlandês"
+            }
+        },
+        {
+            "englishName": "Italian",
+            "nativeName": "Italiano",
+            "wordlyCode": "it",
+            "sampleText": "La voce che hai scelto suona così",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Italian",
+                "es": "Italiano",
+                "fr": "Italien",
+                "ja": "イタリア語",
+                "pt-BR": "Italiano"
+            }
+        },
+        {
+            "englishName": "Japanese",
+            "nativeName": "日本語",
+            "wordlyCode": "ja",
+            "sampleText": "あなたが選んだ声はこんな感じ",
+            "rtl": false,
+            "detectability": "preferred",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Japanese",
+                "es": "Japonés",
+                "fr": "Japonais",
+                "ja": "日本語",
+                "pt-BR": "Japonês"
+            }
+        },
+        {
+            "englishName": "Kannada",
+            "nativeName": "ಕನ್ನಡ",
+            "wordlyCode": "kn",
+            "sampleText": "ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ ಧ್ವನಿಯು ಈ ರೀತಿ ಧ್ವನಿಸುತ್ತದೆ",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Kannada",
+                "es": "Kannada",
+                "fr": "Kannada",
+                "ja": "カンナダ語",
+                "pt-BR": "Kannada"
+            }
+        },
+        {
+            "englishName": "Korean",
+            "nativeName": "한국어",
+            "wordlyCode": "ko",
+            "sampleText": "선택한 음성은 다음과 같습니다",
+            "rtl": false,
+            "detectability": "preferred",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Korean",
+                "es": "Coreano",
+                "fr": "Coréen",
+                "ja": "韓国語",
+                "pt-BR": "Coreano"
+            }
+        },
+        {
+            "englishName": "Lao",
+            "nativeName": "ລາວ",
+            "wordlyCode": "lo",
+            "sampleText": "ສຽງ​ທີ່​ເຈົ້າ​ໄດ້​ເລືອກ​ນັ້ນ​ເປັນ​ສຽງ​ດັ່ງ​ນີ້",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": false,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Lao",
+                "es": "Lao",
+                "fr": "Lao",
+                "ja": "ラオス語",
+                "pt-BR": "Lao"
+            }
+        },
+        {
+            "englishName": "Latvian",
+            "nativeName": "Latviešu valoda",
+            "wordlyCode": "lv",
+            "sampleText": "Jūsu izvēlētā balss izklausās šādi",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Latvian",
+                "es": "Letón",
+                "fr": "Letton",
+                "ja": "ラトビア語",
+                "pt-BR": "Letão"
+            }
+        },
+        {
+            "englishName": "Lithuanian",
+            "nativeName": "Lietuvių kalba",
+            "wordlyCode": "lt",
+            "sampleText": "Jūsu izvēlētā balss izklausās šādi",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Lithuanian",
+                "es": "Lituano",
+                "fr": "Lituanien",
+                "ja": "リトアニア語",
+                "pt-BR": "Lituano"
+            }
+        },
+        {
+            "englishName": "Macedonian",
+            "nativeName": "македонски",
+            "wordlyCode": "mk",
+            "sampleText": "Гласот што го избравте звучи вака",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Macedonian",
+                "es": "Macedonio",
+                "fr": "Macédonien",
+                "ja": "マケドニア語",
+                "pt-BR": "Macedônio"
+            }
+        },
+        {
+            "englishName": "Malay",
+            "nativeName": "Bahasa Melayu",
+            "wordlyCode": "ms",
+            "sampleText": "Suara yang anda pilih berbunyi seperti ini",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Malay",
+                "es": "Malayo",
+                "fr": "Malais",
+                "ja": "マレー語",
+                "pt-BR": "Malaio"
+            }
+        },
+        {
+            "englishName": "Maltese",
+            "nativeName": "Malti",
+            "wordlyCode": "mt",
+            "sampleText": "Il-vuċi li għażilt ħsejjes bħal dan",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Maltese",
+                "es": "Maltés",
+                "fr": "Maltais",
+                "ja": "マルタ語",
+                "pt-BR": "Maltês"
+            }
+        },
+        {
+            "englishName": "Norwegian",
+            "nativeName": "Norsk bokmål",
+            "wordlyCode": "no",
+            "sampleText": "Stemmen du har valgt høres slik ut",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Norwegian",
+                "es": "Noruego",
+                "fr": "Norvégien",
+                "ja": "ノルウェー語",
+                "pt-BR": "Norueguês"
+            }
+        },
+        {
+            "englishName": "Persian",
+            "nativeName": "فارسی",
+            "wordlyCode": "fa",
+            "sampleText": "صدایی که انتخاب کرده اید به این شکل است",
+            "rtl": true,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Persian",
+                "es": "Persa",
+                "fr": "Persan",
+                "ja": "ペルシア語",
+                "pt-BR": "Persa"
+            }
+        },
+        {
+            "englishName": "Polish",
+            "nativeName": "Język polski",
+            "wordlyCode": "pl",
+            "sampleText": "Wybrany głos brzmi tak",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Polish",
+                "es": "Polaco",
+                "fr": "Polonais",
+                "ja": "ポーランド語",
+                "pt-BR": "Polonês"
+            }
+        },
+        {
+            "englishName": "Portuguese (PT)",
+            "nativeName": "Português (PT)",
+            "wordlyCode": "pt",
+            "sampleText": "A voz que você escolheu soa assim",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Portuguese (PT)",
+                "es": "Portugués (PT)",
+                "fr": "Portugais (PT)",
+                "ja": "ポルトガル語（PT）",
+                "pt-BR": "Português (Portugal)"
+            }
+        },
+        {
+            "englishName": "Portuguese (BR)",
+            "nativeName": "Português (BR)",
+            "wordlyCode": "pt-BR",
+            "sampleText": "A voz que você escolheu soa assim",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Portuguese (BR)",
+                "es": "Portugués (BR)",
+                "fr": "Portugais (BR)",
+                "ja": "ポルトガル語（BR）",
+                "pt-BR": "Português (Brasil)"
+            }
+        },
+        {
+            "englishName": "Punjabi",
+            "nativeName": "ਪੰਜਾਬੀ",
+            "wordlyCode": "pa",
+            "sampleText": "ਤੁਹਾਡੇ ਦੁਆਰਾ ਚੁਣੀ ਗਈ ਅਵਾਜ਼ ਇਸ ਤਰ੍ਹਾਂ ਆਉਂਦੀ ਹੈ",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": false,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Punjabi",
+                "es": "Punjabi",
+                "fr": "Pendjabi",
+                "ja": "パンジャブ語",
+                "pt-BR": "Punjabi"
+            }
+        },
+        {
+            "englishName": "Romanian",
+            "nativeName": "Română",
+            "wordlyCode": "ro",
+            "sampleText": "Vocea pe care ați ales-o sună așa",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Romanian",
+                "es": "Rumano",
+                "fr": "Roumain",
+                "ja": "ルーマニア語",
+                "pt-BR": "Romeno"
+            }
+        },
+        {
+            "englishName": "Russian",
+            "nativeName": "Русский",
+            "wordlyCode": "ru",
+            "sampleText": "Выбранный вами голос звучит так",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Russian",
+                "es": "Ruso",
+                "fr": "Russe",
+                "ja": "ロシア語",
+                "pt-BR": "Russo"
+            }
+        },
+        {
+            "englishName": "Serbian",
+            "nativeName": "Српски",
+            "wordlyCode": "sr",
+            "sampleText": "Глас који сте одабрали звучи овако",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Serbian",
+                "es": "Serbio",
+                "fr": "Serbe",
+                "ja": "セルビア語",
+                "pt-BR": "Sérvio"
+            }
+        },
+        {
+            "englishName": "Slovak",
+            "nativeName": "Slovenčina",
+            "wordlyCode": "sk",
+            "sampleText": "Hlas, ktorý ste si vybrali, znie takto",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Slovak",
+                "es": "Eslovaco",
+                "fr": "Slovaque",
+                "ja": "スロバキア語",
+                "pt-BR": "Eslovaco"
+            }
+        },
+        {
+            "englishName": "Slovenian",
+            "nativeName": "Slovenščina",
+            "wordlyCode": "sl",
+            "sampleText": "Glas, ki ste ga izbrali, zveni takole",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Slovenian",
+                "es": "Esloveno",
+                "fr": "Slovène",
+                "ja": "スロベニア語",
+                "pt-BR": "Esloveno"
+            }
+        },
+        {
+            "englishName": "Spanish (ES)",
+            "nativeName": "Español (ES)",
+            "wordlyCode": "es",
+            "sampleText": "La voz que has elegido suena así",
+            "rtl": false,
+            "detectability": "preferred",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Spanish (ES)",
+                "es": "Español (ES)",
+                "fr": "Espagnol (ES)",
+                "ja": "スペイン語（ES）",
+                "pt-BR": "Espanhol (Espanha)"
+            }
+        },
+        {
+            "englishName": "Spanish (LatAm)",
+            "nativeName": "Español (LatAm)",
+            "wordlyCode": "es-MX",
+            "sampleText": "La voz que has elegido suena así",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Spanish (LatAm)",
+                "es": "Español (LatAm)",
+                "fr": "Espagnol (LatAm)",
+                "ja": "スペイン語（LatAm）",
+                "pt-BR": "Espanhol (LatAm)"
+            }
+        },
+        {
+            "englishName": "Swahili",
+            "nativeName": "Kiswahili",
+            "wordlyCode": "sw",
+            "sampleText": "Sauti uliyochagua inasikika hivi",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": false,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Swahili",
+                "es": "Swahili",
+                "fr": "Swahili",
+                "ja": "スワヒリ語",
+                "pt-BR": "Suaíli"
+            }
+        },
+        {
+            "englishName": "Swedish",
+            "nativeName": "Svenska",
+            "wordlyCode": "sv",
+            "sampleText": "Rösten du valde låter så här",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Swedish",
+                "es": "Sueco",
+                "fr": "Suédois",
+                "ja": "スウェーデン語",
+                "pt-BR": "Sueco"
+            }
+        },
+        {
+            "englishName": "Tagalog",
+            "nativeName": "Tagalog",
+            "wordlyCode": "tl",
+            "sampleText": "Ang tinig na iyong pinili tunog tulad nito",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": true,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Tagalog",
+                "es": "Tagalo",
+                "fr": "Tagalog",
+                "ja": "タガログ語",
+                "pt-BR": "Tagalo"
+            }
+        },
+        {
+            "englishName": "Tamil",
+            "nativeName": "தமிழ்",
+            "wordlyCode": "ta",
+            "sampleText": "நீங்கள் தேர்ந்தெடுத்த குரல் இப்படி ஒலிக்கிறது",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": false,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Tamil",
+                "es": "Támil",
+                "fr": "Tamoul",
+                "ja": "タミル語",
+                "pt-BR": "Tâmil"
+            }
+        },
+        {
+            "englishName": "Thai",
+            "nativeName": "ไทย",
+            "wordlyCode": "th",
+            "sampleText": "เสียงที่คุณเลือกฟังแบบนี้",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Thai",
+                "es": "Tailandés",
+                "fr": "Thaï",
+                "ja": "タイ語",
+                "pt-BR": "Tailandês"
+            }
+        },
+        {
+            "englishName": "Turkish",
+            "nativeName": "Türkçe",
+            "wordlyCode": "tr",
+            "sampleText": "Bu ses şöyle geliyor",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Turkish",
+                "es": "Turco",
+                "fr": "Turc",
+                "ja": "トルコ語",
+                "pt-BR": "Turco"
+            }
+        },
+        {
+            "englishName": "Ukrainian",
+            "nativeName": "Українська",
+            "wordlyCode": "uk",
+            "sampleText": "Обраний вами голос звучить так",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Ukrainian",
+                "es": "Ucraniano",
+                "fr": "Ukrainien",
+                "ja": "ウクライナ語",
+                "pt-BR": "Ucraniano"
+            }
+        },
+        {
+            "englishName": "Urdu",
+            "nativeName": "اردو",
+            "wordlyCode": "ur",
+            "sampleText": "آپ نے جس آواز کا انتخاب کیا ہے وہ اس طرح کی لگتی ہے",
+            "rtl": true,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Urdu",
+                "es": "Urdu",
+                "fr": "Ourdou",
+                "ja": "ウルドゥー語",
+                "pt-BR": "Urdu"
+            }
+        },
+        {
+            "englishName": "Welsh",
+            "nativeName": "Cymraeg",
+            "wordlyCode": "cy",
+            "sampleText": "Mae'r llais rydych chi wedi'i ddewis yn swnio fel hyn",
+            "rtl": false,
+            "detectability": "none",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Welsh",
+                "es": "Galés",
+                "fr": "Gallois",
+                "ja": "ウェールズ語",
+                "pt-BR": "Galês"
+            }
+        },
+        {
+            "englishName": "Vietnamese",
+            "nativeName": "Tiếng Việt",
+            "wordlyCode": "vi",
+            "sampleText": "Giọng nói bạn đã chọn nghe như thế này",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": true,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Vietnamese",
+                "es": "Vietnamita",
+                "fr": "Vietnamien",
+                "ja": "ベトナム語",
+                "pt-BR": "Vietnamita"
+            }
+        },
+        {
+            "englishName": "Zulu",
+            "nativeName": "IsiZulu",
+            "wordlyCode": "zu",
+            "sampleText": "Izwi olikhethile lizwakala kanje",
+            "rtl": false,
+            "detectability": "supported",
+            "isTranscribable": false,
+            "isTranslatable": true,
+            "isBetaForTranscription": false,
+            "isBetaForTranslation": false,
+            "localizedNames": {
+                "en": "Zulu",
+                "es": "Zulú",
+                "fr": "Zouloue",
+                "ja": "ズールー語",
+                "pt-BR": "Zulu"
+            }
+        }
+    ]
+}
