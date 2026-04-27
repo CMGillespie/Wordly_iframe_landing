@@ -64,14 +64,14 @@
         </div>
 
         <div id="view-placeholder" class="view-state active">
-            <p>Enter Session ID and Language to begin monitoring the presentation.</p>
+            <p>Enter Session ID and Language to begin monitoring.</p>
         </div>
 
         <div id="view-waiting" class="view-state">
             <img src="image_929cb7.png" class="icon-wait" alt="Waiting">
             <h2 id="wait-msg">Connecting...</h2>
             <div class="spinner"></div>
-            <p style="margin-top:20px; color:#8b949e;">Automatically launching once translation data is detected.</p>
+            <p style="margin-top:20px; color:#8b949e;">Monitoring for active translation phrases.</p>
         </div>
 
         <div id="view-live" class="view-state">
@@ -87,8 +87,8 @@
     const inputPanel = document.getElementById('input-panel');
     const sessionControls = document.getElementById('session-controls');
     let socket = null;
+    let isLive = false; // THE GATEKEEPER: Prevents re-launch loops
 
-    /** * 1. ASSET SYNC: Load full language list from local JSON */
     fetch('languages.json')
         .then(r => r.json())
         .then(data => {
@@ -113,24 +113,20 @@
         e.target.value = val;
     });
 
-    /** * 2. LIFECYCLE WATCHDOG: Monitors for both 'phrase' (start) and 'end' (stop) */
     function startAttend() {
         const sid = sidInput.value;
         const lang = langPicker.value;
         if (sid.length < 9 || !lang) return alert("Missing Config");
 
+        isLive = false; 
         switchView('view-waiting');
         document.getElementById('wait-msg').innerText = "Establishing Connection...";
         document.getElementById('connect-trigger').disabled = true;
 
         if (socket) socket.close();
-        
-        // Connect to /attend endpoint per Wordly API
         socket = new WebSocket("wss://endpoint.wordly.ai/attend");
 
         socket.onopen = () => {
-            console.log("WSS: Opened. Sending 'connect' request...");
-            // Handshake includes SID and Language per Page 2 of Wordly API Doc
             socket.send(JSON.stringify({ 
                 type: "connect", 
                 presentationCode: sid, 
@@ -141,21 +137,21 @@
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             
-            // Check status for initial handshake success
             if (data.type === "status" && data.success) {
-                document.getElementById('wait-msg').innerText = "Waiting for Host to begin...";
+                document.getElementById('wait-msg').innerText = "Waiting for presentation content...";
             }
 
-            // TRIGGER: Launch on first phrase detection
-            if (data.type === "phrase" && document.getElementById('view-live').style.display !== 'flex') {
-                console.log("WSS: Content detected. Launching iframe.");
+            // TRIGGER: Only launch if we aren't already live 
+            if (data.type === "phrase" && !isLive) {
+                isLive = true; 
+                console.log("WSS: Phrase detected. Stabilizing stream.");
                 launch(sid, lang);
             }
 
-            // TRIGGER: Auto-reset if the portal sends an 'end' signal
+            // TRIGGER: Auto-reset on 'end' [cite: 209, 701]
             if (data.type === "end") {
-                console.log("WSS: Session end received.");
-                alert("The host has ended the session.");
+                console.log("WSS: Session end signal received.");
+                alert("The session has ended.");
                 resetApp();
             }
         };
@@ -167,28 +163,21 @@
     }
 
     function launch(sid, lang) {
-        // Omnicom Parameters: enableTTS=false
-        // Language is available for selection inside iframe
         const url = `https://attend.wordly.ai/frame/${sid}?lang=${lang}&enableTTS=false&speakerLanguage=false`;
         frame.src = url;
-        
-        // UI Flip
         inputPanel.style.display = 'none';
         sessionControls.style.display = 'flex';
         switchView('view-live');
     }
 
-    /** * 3. RESET ENGINE: Disconnects socket and restores landing state */
     function resetApp() {
+        isLive = false;
         if (socket && socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify({ type: "disconnect" })); // Proper API disconnect
+            socket.send(JSON.stringify({ type: "disconnect" }));
             socket.close();
         }
-        
         frame.src = "";
         document.getElementById('connect-trigger').disabled = false;
-        
-        // UI Restore
         inputPanel.style.display = 'flex';
         sessionControls.style.display = 'none';
         switchView('view-placeholder');
