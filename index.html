@@ -3,35 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Wordly | Omnicom Experience</title>
+    <title>Wordly | Omnicom Landing</title>
     <style>
         :root {
             --bg: #0b0e14;
             --card: #161b22;
             --accent: #2f81f7;
             --text: #c9d1d9;
+            --highlight: #f0ad4e;
         }
         body, html { 
             margin: 0; padding: 0; height: 100%; 
             font-family: -apple-system, system-ui, sans-serif;
             background: var(--bg); color: var(--text);
         }
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
+        
         .setup-card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid #30363d; margin-bottom: 20px; }
         .input-group { display: flex; gap: 15px; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; }
         .field { display: flex; flex-direction: column; gap: 5px; flex-grow: 1; }
-        input, select { background: #0d1117; border: 1px solid #30363d; color: #fff; padding: 12px; border-radius: 6px; font-size: 16px; width: 100%; }
+        input, select { background: #0d1117; border: 1px solid #30363d; color: #fff; padding: 12px; border-radius: 6px; font-size: 16px; width: 100%; box-sizing: border-box; }
         
-        .view-state { display: none; width: 100%; min-height: 500px; border-radius: 8px; background: #000; border: 2px solid #30363d; }
-        .view-state.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .view-state { display: none; width: 100%; min-height: 500px; border-radius: 8px; overflow: hidden; background: #000; border: 2px solid #30363d; position: relative; }
+        .view-state.active { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 
-        /* Icon Fix: Ensure this matches your file exactly */
-        .icon-wait { width: 180px; height: auto; margin-bottom: 20px; }
-        
-        .spinner { width: 40px; height: 40px; border: 4px solid #333; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
+        .icon-wait { width: 180px; margin-bottom: 20px; opacity: 0.8; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #333; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-top: 15px; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
         iframe { width: 100%; height: 550px; border: none; }
-        button.action-btn { cursor: pointer; padding: 12px 24px; border-radius: 6px; border: none; background: var(--accent); color: white; font-weight: bold; }
+        button.action-btn { cursor: pointer; padding: 12px 24px; border-radius: 6px; border: none; font-weight: bold; background: var(--accent); color: white; }
     </style>
 </head>
 <body>
@@ -46,22 +47,23 @@
                 <input type="text" id="session-id" placeholder="XXXX-0000" maxlength="9">
             </div>
             <div class="field">
-                <label>Starting Language</label>
+                <label>Target Language</label>
                 <select id="lang-picker">
-                    <option value="" disabled selected>-- Loading --</option>
+                    <option value="" disabled selected>-- Loading List --</option>
                 </select>
             </div>
-            <button class="action-btn" onclick="connect()">Connect</button>
+            <button class="action-btn" onclick="startAttend()">Connect & Monitor</button>
         </div>
 
         <div id="view-placeholder" class="view-state active">
-            <p>Configure Session ID to begin monitoring.</p>
+            <p>Enter Session ID and Language to begin monitoring the presentation.</p>
         </div>
 
         <div id="view-waiting" class="view-state">
-            <img src="image_929cb7.png" class="icon-wait" alt="Waiting for session">
+            <img src="image_929cb7.png" class="icon-wait" alt="Waiting">
             <h2 id="wait-msg">Connecting...</h2>
             <div class="spinner"></div>
+            <p style="margin-top:20px; color:#8b949e;">Monitoring for active translation phrases.</p>
         </div>
 
         <div id="view-live" class="view-state">
@@ -76,17 +78,14 @@
     const frame = document.getElementById('wordly-frame');
     let socket = null;
 
-    /**
-     * 1. LOAD LANGUAGES (Robust Check)
-     * Using both wordlyCode and code to support different JSON formats.
+    /** * 1. LOAD LANGUAGES (Local Asset) 
+     * Mapping from your local languages.json using Wordly manifest keys.
      */
     fetch('languages.json')
         .then(r => r.json())
         .then(data => {
             const list = data.languages || data;
-            if (!Array.isArray(list)) throw new Error("Invalid format");
-            
-            langPicker.innerHTML = '<option value="" disabled selected>-- Select Language --</option>';
+            langPicker.innerHTML = '<option value="" disabled selected>-- Choose Language --</option>';
             list.forEach(l => {
                 let code = l.wordlyCode || l.code;
                 let name = l.englishName || l.name;
@@ -98,8 +97,8 @@
                 }
             });
         }).catch(e => {
-            console.warn("JSON load failed:", e);
-            langPicker.innerHTML = '<option value="en">English</option><option value="es">Spanish</option>';
+            console.warn("Local JSON fetch failed. Using emergency fallback.");
+            langPicker.innerHTML = '<option value="en">English (en)</option>';
         });
 
     sidInput.addEventListener('input', (e) => {
@@ -109,36 +108,62 @@
     });
 
     /**
-     * 2. WATCHDOG CONNECTION
-     * Connects to WSS and listens for data BEFORE opening iframe.
+     * 2. ATTEND WATCHDOG (Per API Doc 1.3)
+     * Using /attend endpoint to monitor for the first phrase response.
      */
-    function connect() {
+    function startAttend() {
         const sid = sidInput.value;
         const lang = langPicker.value;
-        if (sid.length < 9 || !lang) return alert("Missing Config");
+        
+        if (sid.length < 9 || !lang) return alert("Missing Session ID or Language");
 
         switchView('view-waiting');
-        document.getElementById('wait-msg').innerText = "Waiting for Session: " + sid;
+        document.getElementById('wait-msg').innerText = "Establishing Connection...";
 
         if (socket) socket.close();
-        socket = new WebSocket("wss://endpoint.wordly.ai/present");
+        
+        // Connect to /attend endpoint [cite: 29, 35]
+        socket = new WebSocket("wss://endpoint.wordly.ai/attend");
 
         socket.onopen = () => {
-            // Handshake
-            socket.send(JSON.stringify({
+            console.log("WSS: Opened. Sending 'connect' request...");
+            
+            // Build connect request per Page 2 of Doc [cite: 47, 48, 49, 60]
+            const connectReq = {
                 type: "connect",
-                presentationCode: sid
-            }));
+                presentationCode: sid,
+                languageCode: lang
+            };
+            
+            socket.send(JSON.stringify(connectReq));
         };
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            // Flip to live on first transcript or status update
-            if (data.type === "transcript" || (data.type === "status" && data.live)) {
+            console.log("WSS Message:", data.type);
+
+            // Handle 'status' response [cite: 105, 106, 119]
+            if (data.type === "status") {
+                if (data.success) {
+                    console.log("WSS: Successfully attending. Waiting for phrases...");
+                    document.getElementById('wait-msg').innerText = "Waiting for presentation content...";
+                } else {
+                    console.error("WSS: Error -", data.message);
+                    alert("Wordly Error: " + data.message);
+                    switchView('view-placeholder');
+                    socket.close();
+                }
+            }
+
+            // Handle 'phrase' response - The life trigger [cite: 127, 128]
+            if (data.type === "phrase") {
+                console.log("WSS: Content detected. Closing watchdog and launching iframe.");
                 socket.close();
                 launch(sid, lang);
             }
         };
+
+        socket.onerror = (e) => console.error("WSS Error", e);
     }
 
     function launch(sid, lang) {
