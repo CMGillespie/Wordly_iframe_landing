@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Wordly | Omnicom Managed UX</title>
+    <title>Wordly | Session Gate</title>
     <style>
         :root {
             --bg: #0b0e14;
@@ -20,11 +20,11 @@
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
         .setup-card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid #30363d; margin-bottom: 20px; }
         
-        #input-panel { display: flex; gap: 15px; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; }
+        #input-panel { display: flex; gap: 15px; align-items: flex-end; margin-bottom: 20px; }
         #session-controls { display: none; justify-content: flex-end; margin-bottom: 20px; }
         
         .field { display: flex; flex-direction: column; gap: 5px; flex-grow: 1; }
-        input, select { background: #0d1117; border: 1px solid #30363d; color: #fff; padding: 12px; border-radius: 6px; font-size: 16px; width: 100%; box-sizing: border-box; }
+        input { background: #0d1117; border: 1px solid #30363d; color: #fff; padding: 12px; border-radius: 6px; font-size: 16px; width: 100%; box-sizing: border-box; }
         
         .view-state { display: none; width: 100%; min-height: 500px; border-radius: 8px; overflow: hidden; background: #000; border: 2px solid #30363d; position: relative; }
         .view-state.active { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
@@ -34,44 +34,37 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         iframe { width: 100%; height: 550px; border: none; }
-        button.action-btn { cursor: pointer; padding: 12px 24px; border-radius: 6px; border: none; font-weight: bold; background: var(--accent); color: white; transition: background 0.2s; }
+        button.action-btn { cursor: pointer; padding: 12px 24px; border-radius: 6px; border: none; font-weight: bold; background: var(--accent); color: white; }
         button.leave-btn { background: var(--danger); }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="setup-card">
-        <h1 id="main-title">Wordly | Omnicom Session</h1>
+        <h1 id="main-title">Wordly | Session Gate</h1>
         
         <div id="input-panel">
             <div class="field">
-                <label>Session ID</label>
+                <label>Enter Session ID</label>
                 <input type="text" id="session-id" placeholder="XXXX-0000" maxlength="9">
             </div>
-            <div class="field">
-                <label>Target Language</label>
-                <select id="lang-picker">
-                    <option value="" disabled selected>-- Loading List --</option>
-                </select>
-            </div>
-            <button class="action-btn" id="connect-trigger" onclick="startAttend()">Connect & Monitor</button>
+            <button class="action-btn" id="connect-trigger" onclick="startGate()">Connect & Monitor</button>
         </div>
 
         <div id="session-controls">
-            <button class="action-btn leave-btn" onclick="resetApp()">Leave Session</button>
+            <button class="action-btn leave-btn" onclick="resetGate()">Leave Session</button>
         </div>
 
         <div id="view-placeholder" class="view-state active">
-            <p>Enter Session ID and Language to begin monitoring.</p>
+            <p>Connect to a session to begin automatic monitoring.</p>
         </div>
 
         <div id="view-waiting" class="view-state">
             <img src="image_929cb7.png" class="icon-wait" alt="Waiting">
-            <h2 id="wait-msg">Connecting...</h2>
+            <h2 id="wait-msg">Monitoring Stream...</h2>
             <div class="spinner"></div>
-            <p style="margin-top:20px; color:#8b949e;">Monitoring for active translation phrases.</p>
+            <p style="margin-top:20px; color:#8b949e;">Iframe will launch automatically when the host begins.</p>
         </div>
 
         <div id="view-live" class="view-state">
@@ -82,98 +75,79 @@
 
 <script>
     const sidInput = document.getElementById('session-id');
-    const langPicker = document.getElementById('lang-picker');
     const frame = document.getElementById('wordly-frame');
     const inputPanel = document.getElementById('input-panel');
     const sessionControls = document.getElementById('session-controls');
     let socket = null;
-    let isLive = false; // THE GATEKEEPER: Prevents re-launch loops
+    let isLive = false;
 
-    fetch('languages.json')
-        .then(r => r.json())
-        .then(data => {
-            const list = data.languages || data;
-            langPicker.innerHTML = '<option value="" disabled selected>-- Choose Language --</option>';
-            list.forEach(l => {
-                let code = l.wordlyCode || l.code;
-                let name = l.englishName || l.name;
-                if(code && name) {
-                    let o = document.createElement('option');
-                    o.value = code; o.innerText = name;
-                    langPicker.appendChild(o);
-                }
-            });
-        }).catch(e => {
-            langPicker.innerHTML = '<option value="en">English (en)</option>';
-        });
-
+    // Session ID Formatter
     sidInput.addEventListener('input', (e) => {
         let val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         if (val.length > 4) val = val.slice(0, 4) + '-' + val.slice(4, 8);
         e.target.value = val;
     });
 
-    function startAttend() {
+    function startGate() {
         const sid = sidInput.value;
-        const lang = langPicker.value;
-        if (sid.length < 9 || !lang) return alert("Missing Config");
+        if (sid.length < 9) return alert("Please enter a valid Session ID.");
 
-        isLive = false; 
+        isLive = false;
         switchView('view-waiting');
-        document.getElementById('wait-msg').innerText = "Establishing Connection...";
         document.getElementById('connect-trigger').disabled = true;
 
         if (socket) socket.close();
+        
+        // Open WebSocket to /attend per API [cite: 35]
         socket = new WebSocket("wss://endpoint.wordly.ai/attend");
 
         socket.onopen = () => {
+            // Handshake with default lang 'en' to satisfy required field [cite: 46, 60]
             socket.send(JSON.stringify({ 
                 type: "connect", 
                 presentationCode: sid, 
-                languageCode: lang 
+                languageCode: "en" 
             }));
         };
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             
+            // Check success per API [cite: 37, 119]
             if (data.type === "status" && data.success) {
-                document.getElementById('wait-msg').innerText = "Waiting for presentation content...";
+                document.getElementById('wait-msg').innerText = "Session Found. Waiting for content...";
             }
 
-            // TRIGGER: Only launch if we aren't already live 
+            // Launch on first phrase [cite: 38, 127]
             if (data.type === "phrase" && !isLive) {
-                isLive = true; 
-                console.log("WSS: Phrase detected. Stabilizing stream.");
-                launch(sid, lang);
+                isLive = true;
+                launch(sid);
             }
 
-            // TRIGGER: Auto-reset on 'end' [cite: 209, 701]
+            // Auto-reset on end [cite: 38, 208]
             if (data.type === "end") {
-                console.log("WSS: Session end signal received.");
                 alert("The session has ended.");
-                resetApp();
+                resetGate();
             }
         };
 
-        socket.onerror = (e) => {
-            console.error("WSS Error:", e);
-            resetApp();
-        };
+        socket.onerror = () => resetGate();
     }
 
-    function launch(sid, lang) {
-        const url = `https://attend.wordly.ai/frame/${sid}?lang=${lang}&enableTTS=false&speakerLanguage=false`;
+    function launch(sid) {
+        // Simple URL - language selection occurs inside the iframe [cite: 30]
+        const url = `https://attend.wordly.ai/frame/${sid}?enableTTS=false&speakerLanguage=false`;
         frame.src = url;
+        
         inputPanel.style.display = 'none';
         sessionControls.style.display = 'flex';
         switchView('view-live');
     }
 
-    function resetApp() {
+    function resetGate() {
         isLive = false;
         if (socket && socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify({ type: "disconnect" }));
+            socket.send(JSON.stringify({ type: "disconnect" })); // [cite: 38, 90]
             socket.close();
         }
         frame.src = "";
