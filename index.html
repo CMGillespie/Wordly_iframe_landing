@@ -101,6 +101,7 @@
     const sessionControls = document.getElementById('session-controls');
     let socket = null;
     let isLive = false;
+    let frameLaunched = false;
     let watchdogTimer = null;
     const DEFAULT_SILENCE_TIMEOUT_MIN = 2; // fallback if no ?timeout= param present
 
@@ -164,8 +165,10 @@
         window.history.replaceState({}, '', url.toString());
 
         isLive = false;
+        frameLaunched = false;
         switchView('view-waiting');
         const btn = document.getElementById('connect-trigger');
+        btn.style.display = '';
         btn.textContent = 'Connecting...';
         btn.className = 'action-btn waiting-btn';
         btn.disabled = true;
@@ -189,15 +192,22 @@
             const data = JSON.parse(event.data);
             resetWatchdog(); // any traffic at all counts as "alive"
 
-            // Status success — session found, waiting for content.
+            // Status success — launch the iframe immediately so the Wordly bar/UI
+            // is present from the moment we're connected, not just once content starts.
+            // Button stays amber until actual content arrives (see phrase handler below).
             if (data.type === "status" && data.success) {
                 document.getElementById('connect-trigger').textContent = 'Connected. Waiting for content...';
+                if (!frameLaunched) {
+                    frameLaunched = true;
+                    launch(sid);
+                }
             }
 
-            // Launch on first phrase [cite: 38, 127]
+            // First phrase — content has genuinely started, swap button to red Leave state
             if (data.type === "phrase" && !isLive) {
                 isLive = true;
-                launch(sid);
+                document.getElementById('connect-trigger').style.display = 'none';
+                sessionControls.style.display = 'flex';
             }
 
             // Session ended (portal END, or auto-timeout on ASR silence) — reload back to waiting state
@@ -214,9 +224,6 @@
         const fgsize = document.getElementById('fgsize-input').value.trim() || '90px';
         const url = `https://attend.wordly.ai/frame/${sid}?enableTTS=false&speakerLanguage=false&fgsize=${encodeURIComponent(fgsize)}&tags=false&showScrollbar=false`;
         frame.src = url;
-
-        inputPanel.style.display = 'none';
-        sessionControls.style.display = 'flex';
         switchView('view-live');
     }
 
@@ -243,6 +250,7 @@
 
     function resetGate() {
         isLive = false;
+        frameLaunched = false;
         if (watchdogTimer) clearTimeout(watchdogTimer);
         if (socket && socket.readyState === WebSocket.OPEN) {
             socket.send(JSON.stringify({ type: "disconnect" })); // [cite: 38, 90]
