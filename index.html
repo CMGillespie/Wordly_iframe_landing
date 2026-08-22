@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wordly | Session Gate</title>
+    <style>
+        :root {
+            --bg: #0b0e14;
+            --card: #161b22;
+            --accent: #2f81f7;
+            --danger: #d73a49;
+            --text: #c9d1d9;
+        }
+        body, html { 
+            margin: 0; padding: 0; height: 100%; 
+            font-family: -apple-system, system-ui, sans-serif;
+            background: var(--bg); color: var(--text); overflow: hidden;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
+        .setup-card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid #30363d; margin-bottom: 20px; }
+        
+        #input-panel { display: flex; gap: 15px; align-items: flex-end; margin-bottom: 20px; }
+        #session-controls { display: none; justify-content: flex-end; margin-bottom: 20px; }
+        
+        .field { display: flex; flex-direction: column; gap: 5px; flex-grow: 1; }
+        input { background: #0d1117; border: 1px solid #30363d; color: #fff; padding: 12px; border-radius: 6px; font-size: 16px; width: 100%; box-sizing: border-box; }
+        
+        .view-state { display: none; width: 100%; min-height: 500px; border-radius: 8px; overflow: hidden; background: #000; border: 2px solid #30363d; position: relative; }
+        .view-state.active { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+
+        .icon-wait { width: 180px; margin-bottom: 20px; opacity: 0.8; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #333; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-top: 15px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        iframe { width: 100%; height: 550px; border: none; }
+        button.action-btn { cursor: pointer; padding: 12px 24px; border-radius: 6px; border: none; font-weight: bold; background: var(--accent); color: white; }
+        button.leave-btn { background: var(--danger); }
+
+        /* Kiosk mode: strip all chrome, true edge-to-edge fullscreen */
+        body.kiosk .container { max-width: none; padding: 0; margin: 0; }
+        body.kiosk .setup-card { border-radius: 0; border: none; padding: 0; margin: 0; }
+        body.kiosk #input-panel, body.kiosk #session-controls, body.kiosk #main-title { display: none !important; }
+        body.kiosk .view-state { border-radius: 0; border: none; min-height: 100vh; height: 100vh; }
+        body.kiosk iframe { height: 100vh; }
+        #kiosk-toggle { position: fixed; bottom: 10px; right: 10px; z-index: 999; opacity: 0.15; font-size: 11px; background: #222; color: #888; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+        #kiosk-toggle:hover { opacity: 0.8; }
+        body.kiosk #kiosk-toggle { opacity: 0.05; }
+        body.kiosk #kiosk-toggle:hover { opacity: 0.5; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="setup-card">
+        <h1 id="main-title">Wordly | Session Gate</h1>
+        
+        <div id="input-panel">
+            <div class="field">
+                <label>Enter Session ID</label>
+                <input type="text" id="session-id" placeholder="XXXX-0000" maxlength="9">
+            </div>
+            <button class="action-btn" id="connect-trigger" onclick="startGate()">Connect & Monitor</button>
+        </div>
+
+        <div id="session-controls">
+            <button class="action-btn leave-btn" onclick="resetGate()">Leave Session</button>
+        </div>
+
+        <div id="view-placeholder" class="view-state active">
+            <p>Connect to a session to begin automatic monitoring.</p>
+        </div>
+
+        <div id="view-waiting" class="view-state"></div>
+
+        <div id="view-live" class="view-state">
+            <iframe id="wordly-frame" allow="microphone; clipboard-write"></iframe>
+        </div>
+    </div>
+</div>
+
+<button id="kiosk-toggle" onclick="toggleKiosk()">⛶ kiosk</button>
+
+<script>
+    const sidInput = document.getElementById('session-id');
+    const frame = document.getElementById('wordly-frame');
+    const inputPanel = document.getElementById('input-panel');
+    const sessionControls = document.getElementById('session-controls');
+    let socket = null;
+    let isLive = false;
+    let watchdogTimer = null;
+    const DEFAULT_SILENCE_TIMEOUT_MIN = 2; // fallback if no ?timeout= param present
+
+    function getSilenceTimeoutMin() {
+        const t = parseFloat(getParam('timeout'));
+        return (!isNaN(t) && t > 0) ? t : DEFAULT_SILENCE_TIMEOUT_MIN;
+    }
+
+    // Session ID Formatter
+    sidInput.addEventListener('input', (e) => {
+        let val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        if (val.length > 4) val = val.slice(0, 4) + '-' + val.slice(4, 8);
+        e.target.value = val;
+    });
+
+    function getParam(name) {
+        return new URLSearchParams(window.location.search).get(name);
+    }
+
+    function resetWatchdog() {
+        if (watchdogTimer) clearTimeout(watchdogTimer);
+        watchdogTimer = setTimeout(() => {
+            // No WSS traffic for the configured window — reload preserving session ID via URL param
+            hardReload();
+        }, getSilenceTimeoutMin() * 60 * 1000);
+    }
+
+    function hardReload() {
+        const sid = sidInput.value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('session', sid);
+        if (document.body.classList.contains('kiosk')) url.searchParams.set('kiosk', '1');
+        // timeout param, if present, is already in the URL and carries through automatically
+        window.location.href = url.toString();
+    }
+
+    function toggleKiosk() {
+        const url = new URL(window.location.href);
+        if (document.body.classList.contains('kiosk')) {
+            document.body.classList.remove('kiosk');
+            url.searchParams.delete('kiosk');
+        } else {
+            document.body.classList.add('kiosk');
+            url.searchParams.set('kiosk', '1');
+        }
+        window.history.replaceState({}, '', url.toString());
+    }
+
+    function startGate() {
+        const sid = sidInput.value;
+        if (sid.length < 9) return alert("Please enter a valid Session ID.");
+
+        // Keep URL in sync so a manual refresh or the watchdog reload preserves state
+        const url = new URL(window.location.href);
+        url.searchParams.set('session', sid);
+        window.history.replaceState({}, '', url.toString());
+
+        isLive = false;
+        switchView('view-waiting');
+        document.getElementById('connect-trigger').disabled = true;
+
+        if (socket) socket.close();
+
+        // Open WebSocket to /attend per API [cite: 35]
+        socket = new WebSocket("wss://endpoint.wordly.ai/attend");
+
+        socket.onopen = () => {
+            // Handshake with default lang 'en' to satisfy required field [cite: 46, 60]
+            socket.send(JSON.stringify({
+                type: "connect",
+                presentationCode: sid,
+                languageCode: "en"
+            }));
+            resetWatchdog();
+        };
+
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            resetWatchdog(); // any traffic at all counts as "alive"
+
+            // Status success — session found, waiting for content. (No visible UI in blank waiting state.)
+
+            // Launch on first phrase [cite: 38, 127]
+            if (data.type === "phrase" && !isLive) {
+                isLive = true;
+                launch(sid);
+            }
+
+            // Session ended (portal END, or auto-timeout on ASR silence) — reload back to waiting state
+            if (data.type === "end") {
+                hardReload();
+            }
+        };
+
+        socket.onerror = () => resetGate();
+    }
+
+    function launch(sid) {
+        // fgsize controls Wordly's own caption font size — pass through from our URL,
+        // default 90px (matches Wordly's own default) if not specified.
+        const fgsize = getParam('fgsize') || '90px';
+        const url = `https://attend.wordly.ai/frame/${sid}?enableTTS=false&speakerLanguage=false&fgsize=${encodeURIComponent(fgsize)}&tags=false&showScrollbar=false`;
+        frame.src = url;
+
+        inputPanel.style.display = 'none';
+        sessionControls.style.display = 'flex';
+        switchView('view-live');
+    }
+
+    function resetGate() {
+        isLive = false;
+        if (watchdogTimer) clearTimeout(watchdogTimer);
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({ type: "disconnect" })); // [cite: 38, 90]
+            socket.close();
+        }
+        frame.src = "";
+        document.getElementById('connect-trigger').disabled = false;
+        inputPanel.style.display = 'flex';
+        sessionControls.style.display = 'none';
+        switchView('view-placeholder');
+    }
+
+    function switchView(id) {
+        document.querySelectorAll('.view-state').forEach(v => v.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    // Boot: read session ID + kiosk flag from URL, auto-connect if present
+    window.addEventListener('DOMContentLoaded', () => {
+        const sid = getParam('session');
+        if (getParam('kiosk') === '1') document.body.classList.add('kiosk');
+        if (sid) {
+            sidInput.value = sid.toUpperCase();
+            startGate();
+        }
+    });
+</script>
+</body>
+</html>
