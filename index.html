@@ -36,6 +36,7 @@
         iframe { width: 100%; height: 550px; border: none; }
         button.action-btn { cursor: pointer; padding: 12px 24px; border-radius: 6px; border: none; font-weight: bold; background: var(--accent); color: white; }
         button.leave-btn { background: var(--danger); }
+        button.waiting-btn { background: #d29922; cursor: default; }
 
         /* Kiosk mode: strip all chrome, true edge-to-edge fullscreen */
         body.kiosk .container { max-width: none; padding: 0; margin: 0; }
@@ -47,7 +48,6 @@
         #kiosk-toggle:hover { opacity: 0.8; }
         body.kiosk #kiosk-toggle { opacity: 0.05; }
         body.kiosk #kiosk-toggle:hover { opacity: 0.5; }
-        body.kiosk #waiting-msg { display: none !important; }
     </style>
 </head>
 <body>
@@ -84,9 +84,7 @@
             <p>Connect to a session to begin automatic monitoring.</p>
         </div>
 
-        <div id="view-waiting" class="view-state">
-            <p id="waiting-msg" style="color:#8b949e; font-size:14px;">Connected. Waiting for content...</p>
-        </div>
+        <div id="view-waiting" class="view-state"></div>
 
         <div id="view-live" class="view-state">
             <iframe id="wordly-frame" allow="microphone; clipboard-write"></iframe>
@@ -167,8 +165,10 @@
 
         isLive = false;
         switchView('view-waiting');
-        document.getElementById('waiting-msg').innerText = 'Connecting...';
-        document.getElementById('connect-trigger').disabled = true;
+        const btn = document.getElementById('connect-trigger');
+        btn.textContent = 'Connecting...';
+        btn.className = 'action-btn waiting-btn';
+        btn.disabled = true;
 
         if (socket) socket.close();
 
@@ -191,7 +191,7 @@
 
             // Status success — session found, waiting for content.
             if (data.type === "status" && data.success) {
-                document.getElementById('waiting-msg').innerText = 'Connected. Waiting for content...';
+                document.getElementById('connect-trigger').textContent = 'Connected. Waiting for content...';
             }
 
             // Launch on first phrase [cite: 38, 127]
@@ -249,7 +249,10 @@
             socket.close();
         }
         frame.src = "";
-        document.getElementById('connect-trigger').disabled = false;
+        const btn = document.getElementById('connect-trigger');
+        btn.textContent = 'Connect & Monitor';
+        btn.className = 'action-btn';
+        btn.disabled = false;
         inputPanel.style.display = 'flex';
         sessionControls.style.display = 'none';
         switchView('view-placeholder');
