@@ -47,6 +47,7 @@
         #kiosk-toggle:hover { opacity: 0.8; }
         body.kiosk #kiosk-toggle { opacity: 0.05; }
         body.kiosk #kiosk-toggle:hover { opacity: 0.5; }
+        body.kiosk #waiting-msg { display: none !important; }
     </style>
 </head>
 <body>
@@ -83,7 +84,9 @@
             <p>Connect to a session to begin automatic monitoring.</p>
         </div>
 
-        <div id="view-waiting" class="view-state"></div>
+        <div id="view-waiting" class="view-state">
+            <p id="waiting-msg" style="color:#8b949e; font-size:14px;">Connected. Waiting for content...</p>
+        </div>
 
         <div id="view-live" class="view-state">
             <iframe id="wordly-frame" allow="microphone; clipboard-write"></iframe>
@@ -164,6 +167,7 @@
 
         isLive = false;
         switchView('view-waiting');
+        document.getElementById('waiting-msg').innerText = 'Connecting...';
         document.getElementById('connect-trigger').disabled = true;
 
         if (socket) socket.close();
@@ -185,7 +189,10 @@
             const data = JSON.parse(event.data);
             resetWatchdog(); // any traffic at all counts as "alive"
 
-            // Status success — session found, waiting for content. (No visible UI in blank waiting state.)
+            // Status success — session found, waiting for content.
+            if (data.type === "status" && data.success) {
+                document.getElementById('waiting-msg').innerText = 'Connected. Waiting for content...';
+            }
 
             // Launch on first phrase [cite: 38, 127]
             if (data.type === "phrase" && !isLive) {
