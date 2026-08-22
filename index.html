@@ -60,6 +60,14 @@
                 <label>Enter Session ID</label>
                 <input type="text" id="session-id" placeholder="XXXX-0000" maxlength="9">
             </div>
+            <div class="field" style="flex-grow:0; width:110px;">
+                <label>Font Size</label>
+                <input type="text" id="fgsize-input" placeholder="90px" value="90px">
+            </div>
+            <div class="field" style="flex-grow:0; width:110px;">
+                <label>Timeout (min)</label>
+                <input type="number" id="timeout-input" placeholder="2" value="2" min="1">
+            </div>
             <button class="action-btn" id="connect-trigger" onclick="startGate()">Connect & Monitor</button>
         </div>
 
@@ -92,7 +100,7 @@
     const DEFAULT_SILENCE_TIMEOUT_MIN = 2; // fallback if no ?timeout= param present
 
     function getSilenceTimeoutMin() {
-        const t = parseFloat(getParam('timeout'));
+        const t = parseFloat(document.getElementById('timeout-input').value);
         return (!isNaN(t) && t > 0) ? t : DEFAULT_SILENCE_TIMEOUT_MIN;
     }
 
@@ -140,9 +148,14 @@
         const sid = sidInput.value;
         if (sid.length < 9) return alert("Please enter a valid Session ID.");
 
+        const fgsize = document.getElementById('fgsize-input').value.trim() || '90px';
+        const timeout = document.getElementById('timeout-input').value.trim() || '2';
+
         // Keep URL in sync so a manual refresh or the watchdog reload preserves state
         const url = new URL(window.location.href);
         url.searchParams.set('session', sid);
+        url.searchParams.set('fgsize', fgsize);
+        url.searchParams.set('timeout', timeout);
         window.history.replaceState({}, '', url.toString());
 
         isLive = false;
@@ -186,9 +199,8 @@
     }
 
     function launch(sid) {
-        // fgsize controls Wordly's own caption font size — pass through from our URL,
-        // default 90px (matches Wordly's own default) if not specified.
-        const fgsize = getParam('fgsize') || '90px';
+        // fgsize controls Wordly's own caption font size — read from the input field
+        const fgsize = document.getElementById('fgsize-input').value.trim() || '90px';
         const url = `https://attend.wordly.ai/frame/${sid}?enableTTS=false&speakerLanguage=false&fgsize=${encodeURIComponent(fgsize)}&tags=false&showScrollbar=false`;
         frame.src = url;
 
@@ -216,9 +228,13 @@
         document.getElementById(id).classList.add('active');
     }
 
-    // Boot: read session ID + kiosk flag from URL, auto-connect if present
+    // Boot: read session ID + fgsize + timeout + kiosk flag from URL, auto-connect if present
     window.addEventListener('DOMContentLoaded', () => {
         const sid = getParam('session');
+        const fgsize = getParam('fgsize');
+        const timeout = getParam('timeout');
+        if (fgsize) document.getElementById('fgsize-input').value = fgsize;
+        if (timeout) document.getElementById('timeout-input').value = timeout;
         if (getParam('kiosk') === '1') document.body.classList.add('kiosk');
         if (sid) {
             sidInput.value = sid.toUpperCase();
